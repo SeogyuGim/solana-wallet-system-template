@@ -1,27 +1,18 @@
-import * as dotenv from 'dotenv';
-
-dotenv.config({ path: __dirname + '/../../.env.' + (process.env.NODE_ENV || 'local') });
-
-export default {
-  BLOCK_NUMBER: Number(process.env.BLOCK_NUM) || 112730452,
-  PORT: process.env.PORT || 8080,
-  DEBUG: process.env.NODE_ENV !== 'production',
-  CORS_ORIGIN: '*',
-  prefixPath: {
-    api: process.env.API_PREFIX || '/api',
-    admin: process.env.ADMIN_PREFIX || '/admin',
-  },
-  database: {
-    database: process.env.DB_NAME,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    read_host: process.env.READ_DB_HOST,
-    write_host: process.env.WRITE_DB_HOST,
-    operatorsAliases: false,
-    dialect: 'postgres',
-    mongo_host: process.env.MONGO_HOST,
-    redis_host: process.env.REDIS_HOST,
-    redis_password: process.env.REDIS_PASSWORD,
-  },
-  JWT_SECRET: process.env.JWT_SECRET ?? 'hello jwt',
-};
+export default () => ({
+	PORT: process.env.RDB_PORT || 8080,
+	DEBUG: process.env.NODE_ENV !== 'production',
+	CORS_ORIGIN: '*',
+	API_PREFIX: process.env.API_PREFIX || '/api/v1',
+	ADMIN_PREFIX: process.env.ADMIN_PREFIX || '/admin',
+	RDB_NAME: process.env.RDB_NAME,
+	RDB_USER: process.env.RDB_USER,
+	RDB_PASS: process.env.RDB_PASS,
+	RDB_READ_HOST: process.env.RDB_READ_HOST,
+	RDB_WRITE_HOST: process.env.RDB_WRITE_HOST,
+	DIALECT: 'postgres',
+	NOSQL_HOST: process.env.NOSQL_HOST,
+	CACHE_DB_HOST: process.env.CACHE_DB_HOST,
+	CACHE_DB_USER: process.env.CACHE_DB_USER,
+	CACHE_DB_PASS: process.env.CACHE_DB_PASS,
+	JWT_SECRET: process.env.JWT_SECRET ?? 'hello jwt',
+});

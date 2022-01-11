@@ -1,8 +1,8 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity } from 'typeorm';
 import { DatetimeBasedEntity } from '@entities';
 
-@Entity('group')
+@Entity('userGroups')
 export class GroupEntity extends DatetimeBasedEntity {
-    @Column()
-    name!: string;
+	@Column()
+	name!: string;
 }

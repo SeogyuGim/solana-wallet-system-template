@@ -1,0 +1,6 @@
+export const WALLET_WITHDRAWAL_STATUS = {
+	CREATED: 0,
+	PENDING: 1,
+	SUCCESS: 2,
+	FAILED: 3,
+};

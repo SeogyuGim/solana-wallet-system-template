@@ -11,14 +11,36 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@config": ["./src/config"],
-      "@middleware": ["./src/middleware"],
-      "@entities": ["./src/entities"],
-      "@utils": ["./src/utils"],
-      "@modules/*": ["./src/modules/*"]
+      "@middleware": [
+        "./src/middleware"
+      ],
+      "@entities": [
+        "./src/entities"
+      ],
+      "@utils": [
+        "./src/utils"
+      ],
+      "@modules/*": [
+        "./src/modules/*"
+      ],
+      "@interfaces/*": [
+        "./src/interfaces/*"
+      ],
+      "@common/*": [
+        "./src/common/*"
+      ]
     },
     "incremental": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist", "client", "upload", "docs", "docker"]
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "client",
+    "upload",
+    "docs",
+    "docker"
+  ]
 }

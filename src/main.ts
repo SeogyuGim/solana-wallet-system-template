@@ -5,48 +5,46 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import fmp from 'fastify-multipart';
 import fastifyHelmet from 'fastify-helmet';
 
-import config from '@config';
 import Logger from '@modules/logger/logger.service';
 import { AppModule } from './app.module';
 
-
 async function bootstrap() {
-  process.addListener('SIGINT', () => {
-    process.kill(process.pid);
-  });
+	process.addListener('SIGINT', () => {
+		process.kill(process.pid);
+	});
 
-  // 앱 인스턴스 생성
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+	// Creating App instance
+	const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
-  // multi-part 설정
-  await app.register(fmp);
+	// setting multi-part
+	await app.register(fmp);
 
-  // Prefix Url 설정
-  app.setGlobalPrefix(config.prefixPath.api);
+	// setting Logger
+	app.useLogger(new Logger());
 
-  // Logger 설정
-  app.useLogger(new Logger());
+	// setting PipeLine
+	app.useGlobalPipes(
+		new ValidationPipe({
+			whitelist: true,
+			disableErrorMessages: process.env.NODE_ENV !== 'production',
+			forbidNonWhitelisted: true,
+			transform: true,
+		}),
+	);
 
-  // PipeLine 설정
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      disableErrorMessages: !config.DEBUG,
-      forbidNonWhitelisted: true,
-      transform: true,
-    }),
-  );
+	// setting CORS
+	app.enableCors({
+		origin: '*',
+		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+		preflightContinue: false,
+		optionsSuccessStatus: 204,
+	});
 
-  // CORS 설정
-  app.enableCors({
-    origin: config.CORS_ORIGIN,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-  });
+	// setting HTTP helmet
+	await app.register(fastifyHelmet);
 
-  await app.register(fastifyHelmet);
-  await app.listen(config.PORT, '0.0.0.0');
+	// setting app to listen on PORT(default:8080)
+	await app.listen(process.env.PORT || 8080, '0.0.0.0');
 }
 
 bootstrap();

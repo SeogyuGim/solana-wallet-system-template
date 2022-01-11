@@ -1,2 +1,2 @@
-export * as date from './date'
-export * as hash from './hash'
+export * as date from './date';
+export * as hash from './hash';

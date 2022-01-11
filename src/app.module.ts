@@ -1,46 +1,29 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 
-import config from '@config';
 import { CryptoWalletModule } from '@modules/crypto-wallet/crypto-wallet.module';
-import { AppController } from './app.controller';
 import { TaskModule } from '@modules/task/task.module';
 
+import { RdbConfigServiceConfigService } from './config/rdb-config.service';
+import configuration from './config';
+import { AppController } from './app.controller';
+
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: config.database.write_host,
-      port: 5432,
-      username: config.database.username,
-      password: config.database.password,
-      database: config.database.database,
-      replication: {
-        master: {
-          host: config.database.write_host,
-          port: 5432,
-          username: config.database.username,
-          password: config.database.password,
-          database: config.database.database,
-        },
-        slaves: [
-          {
-            host: config.database.read_host,
-            port: 5432,
-            username: config.database.username,
-            password: config.database.password,
-            database: config.database.database,
-          },
-        ],
-      },
-      entities: ['dist/**/*.entity.{ts,js}'],
-      synchronize: config.DEBUG,
-    }),
-    ScheduleModule.forRoot(),
-    CryptoWalletModule,
-    TaskModule,
-  ],
-  controllers: [AppController],
+	imports: [
+		TypeOrmModule.forRootAsync({
+			useClass: RdbConfigServiceConfigService,
+		}),
+		ConfigModule.forRoot({
+			load: [configuration],
+			isGlobal: true,
+			cache: true,
+		}),
+		ScheduleModule.forRoot(),
+		CryptoWalletModule,
+		TaskModule,
+	],
+	controllers: [AppController],
 })
 export class AppModule {}

@@ -1,10 +1,9 @@
 {
   "name": "solana-wallet",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "description": "solana wallet template created by Yeriel Kim",
+  "author": "Yeriel Kim",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -12,13 +11,8 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "start:prod": "pm2 startOrReload ecosystem.config.js",
+    "test": "jest"
   },
   "dependencies": {
     "@babel/preset-env": "^7.16.5",
@@ -54,6 +48,7 @@
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.2.3",
+    "@nestjs/swagger": "^5.1.5",
     "@types/cron": "^1.7.3",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.0.3",

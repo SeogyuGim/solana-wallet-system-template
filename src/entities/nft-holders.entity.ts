@@ -1,17 +1,17 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { DatetimeBasedEntity, UserEntity } from '@entities';
 
-@Entity({ name: 'nft_holders' })
+@Entity({ name: 'nftHolders' })
 export class NftHoldersEntity extends DatetimeBasedEntity {
-  @Column()
-  nft_address!: string;
+	@Column()
+	nft_address!: string;
 
-  @OneToOne(() => UserEntity)
-  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
-  user?: UserEntity;
+	@OneToOne(() => UserEntity)
+	@JoinColumn({ name: 'userId', referencedColumnName: 'id' })
+	user?: UserEntity;
 
-  @Column({
-    default: false,
-  })
-  onOrderbook!: boolean;
+	@Column({
+		default: false,
+	})
+	onOrderbook!: boolean;
 }
